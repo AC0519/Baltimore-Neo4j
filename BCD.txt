@@ -1,0 +1,7 @@
+LOAD CSV WITH HEADERS FROM "file:///C:/BCD2017.csv" AS line
+MERGE(neighborhood:Neighborhoods {name:line.Neighborhood})
+MERGE(district:Districts {name:line.District})
+MERGE(crime:Crimes {name:line.Description, weapon:line.Weapon, date:line.CrimeDate, time:line.CrimeTime, code:line.CrimeCode, location:line.Location, premisetype:line.Premise})
+MERGE(neighborhood)-[:Located_In]->(district)
+MERGE(crime)-[:Took_Place_In]->(neighborhood)
+RETURN crime, district, neighborhood
